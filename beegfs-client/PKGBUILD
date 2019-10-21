@@ -23,10 +23,27 @@ provides=("${_provides[@]}")
 conflicts=("${_provides[@]}")
 replaces=("${_provides[@]}")
 
-source=("$pkgname-$pkgver::git+${url}/${_ver}.git#tag=${_tag}")
+source=("$pkgname-$pkgver::git+${url}/${_ver}.git#tag=${_tag}"
+        "http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")
 sha512sums=('SKIP')
 
 prepare() {
+    cd "$srcdir/$pkgname-$pkgver/${_srchelper}/build"
+    find dist -type f -exec sed --in-place \
+         --expression='s|/usr/libexec|/usr/lib/beegfs|g' \
+         --expression='s|/usr/sbin|/usr/bin|g' \
+         --expression='s|/sbin|/usr/bin|g' \
+         --expression='s|/opt/beegfs/usr/bin|/usr/bin|g' \
+         '{}' '+'
+
+    cd "${srcdir}/$pkgname-$pkgver/${_srcname}_module/build/"
+    find dist -type f -exec sed --in-place \
+         --expression='s|/usr/libexec|/usr/lib/beegfs|g' \
+         --expression='s|/usr/sbin|/usr/bin|g' \
+         --expression='s|/sbin|/usr/bin|g' \
+         --expression='s|/opt/beegfs/usr/bin|/usr/bin|g' \
+         '{}' '+'
+
     cd "$srcdir/$pkgname-$pkgver/${_srcname}_module/source/"
 
     # comment out deprecated current_fs_time definitions of timespec and timspec65 lines 155-166
@@ -103,4 +120,7 @@ package() {
 
     cd "$srcdir/$pkgname-$pkgver"
     install -D --mode=0644 LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.txt"
+
+    cd "$srcdir"
+    install -D --mode=0644 LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/gpl-2.0.txt"
 }

@@ -32,6 +32,7 @@ prepare() {
         --expression='s|/usr/libexec|/usr/lib/beegfs|g' \
         --expression='s|/usr/sbin|/usr/bin|g' \
         --expression='s|/sbin|/usr/bin|g' \
+        --expression='s|/opt/beegfs/usr/bin|/usr/bin|g' \
         '{}' '+'
 
     cd "$srcdir/$pkgname-$pkgver/${_srcname}/source/"
