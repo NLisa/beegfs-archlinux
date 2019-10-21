@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 # shellcheck disable=SC2034,SC2154,SC2164
 
-# Maintainer: Nyameko Lisa <lisa.nyameko@gmail.com>
+# Maintainer: Nyameko Lisa <lisa dot nyameko at gmail dot com>
 
 pkgname=('beegfs-mgmtd')
 _srcname='mgmtd'
